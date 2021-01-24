@@ -86,7 +86,9 @@ curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar~
 echo -n "-----> Apt get s3cmd... "
 wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py --user
-/app/.local/bin/pip install s3cmd --user
+wget http://ufpr.dl.sourceforge.net/project/s3tools/s3cmd/1.6.1/s3cmd-1.6.1.tar.gz
+cd s3cmd-1.6.1
+python setup.py install
 echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
