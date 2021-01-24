@@ -1,22 +1,22 @@
 
 <div style="background-image: url('a.png'); background-repeat: no-repeat; height: calc(100vh - 60px); background-size: cover; padding: 20px; font-family: Helvetica;">
-  <strong>IP do servidor da Ditadura:</strong> <%= server_url %>
+  <strong>IP do servidor da Ditadura:</strong> <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>
   <p>
     <label>
       <strong>Auto refresh para salvar o servidor:</strong>
-      <input type="checkbox" data-refresh="<%= server_url %>">
+      <input type="checkbox" data-refresh="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>">
     </label>
-    <pre data-url="<%= server_url %>"></pre>
+    <pre data-url="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>"></pre>
   </p>
   <script type="text/javascript">
     window.location.reload.bind(window.location);
      const updateCheckbox = () => {
-      const checkBox = document.querySelector('[data-refresh="<%= server_url %>"]');
+      const checkBox = document.querySelector('[data-refresh="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>"]');
       checkBox.checked = window.location.search.includes('autorefresh');
       checkBox.addEventListener('change', changeCheckbox);
     };
      const changeCheckbox = () => {
-      const checked = document.querySelector('[data-refresh="<%= server_url %>"]').checked;
+      const checked = document.querySelector('[data-refresh="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>"]').checked;
       if (checked) {
         window.location = `${window.location.origin}?autorefresh`;
       } else {
@@ -25,11 +25,11 @@
     };
      const tryToRefresh = () => {
       let date = new Date();
-      date.setMinutes(date.getMinutes() + (document.querySelector('[data-refresh="<%= server_url %>"]').checked ? 25 : 5));
-      document.querySelector('[data-url="<%= server_url %>"]').innerHTML = date.toTimeString().replace(/ .*/, '');
+      date.setMinutes(date.getMinutes() + (document.querySelector('[data-refresh="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>"]').checked ? 25 : 5));
+      document.querySelector('[data-url="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>"]').innerHTML = date.toTimeString().replace(/ .*/, '');
       setTimeout(
         () => {
-          if (document.querySelector('[data-refresh="<%= server_url %>"]').checked) {
+          if (document.querySelector('[data-refresh="<%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>"]').checked) {
             window.location = `${window.location.origin}?autorefresh`;
           } else {
             tryToRefresh();
