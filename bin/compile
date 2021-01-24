@@ -85,10 +85,8 @@ echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar~
 echo -n "-----> Apt get s3cmd... "
-USER root
-apt-get update
-apt-get install python-pip
-pip install s3cmd
+wget https://bootstrap.pypa.io/get-pip.py && python get-pip.py --user
+.local/bin/pip install s3cmd --user
 echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
