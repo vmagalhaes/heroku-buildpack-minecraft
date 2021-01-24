@@ -1,48 +1,10 @@
 
 <div style="background-image: url('a.png'); background-repeat: no-repeat; height: calc(100vh - 60px); background-size: cover; padding: 20px; font-family: Helvetica;">
   <div>
-    <strong>IP do servidor da Ditadura:</strong><span><%= server_url %></span>
+    <% open('ngrok.log') do |f| %>
+      <% f.lines.select { |line| line.include?("URL:") }.each do |line| %>
+        <strong>IP do servidor da Ditadura: </strong> <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>
+      <% end %>
+    <% end %>
   </div>
-  <p>
-    <label>
-      <strong>Auto refresh para salvar o servidor:</strong>
-      <input type="checkbox" data-refresh="<%= server_url %>">
-    </label>
-    <pre data-url="<%= server_url %>"></pre>
-  </p>
-  <script type="text/javascript">
-    window.location.reload.bind(window.location);
-     const updateCheckbox = () => {
-      const checkBox = document.querySelector('[data-refresh="<%= server_url %>"]');
-      checkBox.checked = window.location.search.includes('autorefresh');
-      checkBox.addEventListener('change', changeCheckbox);
-    };
-     const changeCheckbox = () => {
-      const checked = document.querySelector('[data-refresh="<%= server_url %>"]').checked;
-      if (checked) {
-        window.location = `${window.location.origin}?autorefresh`;
-      } else {
-        window.location = window.location.origin;
-      }
-    };
-     const tryToRefresh = () => {
-      let date = new Date();
-      date.setMinutes(date.getMinutes() + (document.querySelector('[data-refresh="<%= server_url %>"]').checked ? 25 : 5));
-      document.querySelector('[data-url="<%= server_url %>"]').innerHTML = date.toTimeString().replace(/ .*/, '');
-      setTimeout(
-        () => {
-          if (document.querySelector('[data-refresh="<%= server_url %>"]').checked) {
-            window.location = `${window.location.origin}?autorefresh`;
-          } else {
-            tryToRefresh();
-          }
-        },
-        date.getTime() - new Date().getTime()
-      );
-    };
-    document.addEventListener("DOMContentLoaded", () => {
-      updateCheckbox();
-      tryToRefresh();
-    });
-  </script>
 </div>
