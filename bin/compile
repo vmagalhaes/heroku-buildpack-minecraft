@@ -85,8 +85,8 @@ echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar~
 echo -n "-----> Apt get s3cmd... "
-apt-get update
-apt-get install python-pip
+sudo apt-get update
+sudo apt-get install python-pip
 pip install s3cmd
 echo "done"
 
